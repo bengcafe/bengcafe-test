@@ -65,19 +65,36 @@ body {
 }
 
 /* =========================================================
-   ACCUEIL
+   ACCUEIL FIXE
    ========================================================= */
 
-#accueil {
-    height: 100vh;
-    min-height: 600px;
+/*
+   Cette partie reste fixée à l'écran.
+   Elle disparaît progressivement quand on arrive sur LE LIEU.
+*/
 
-    position: relative;
+.home-fixed {
+    position: fixed;
+    inset: 0;
+
+    height: 100vh;
+
+    z-index: 10;
 
     background: #000;
 
-    overflow: hidden;
+    transition:
+        opacity 0.15s linear,
+        visibility 0.15s linear;
 }
+
+.home-fixed.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* PHOTO */
 
 .bg {
     position: absolute;
@@ -90,6 +107,7 @@ body {
 
 .bg::after {
     content: "";
+
     position: absolute;
     inset: 0;
 
@@ -122,7 +140,7 @@ body {
         drop-shadow(0 0 30px rgba(255,220,180,0.12));
 }
 
-/* FOOTER ACCUEIL */
+/* FOOTER */
 
 .footer {
     position: absolute;
@@ -139,6 +157,14 @@ body {
     color: rgba(255,255,255,0.6);
 
     z-index: 5;
+}
+
+/* =========================================================
+   ESPACE DE SCROLL POUR L'ACCUEIL
+   ========================================================= */
+
+.home-scroll-space {
+    height: 100vh;
 }
 
 /* =========================================================
@@ -161,7 +187,11 @@ body {
    ========================================================= */
 
 #lieu {
+    position: relative;
+
     background: #f4f1eb;
+
+    z-index: 20;
 }
 
 .lieu-container {
@@ -329,11 +359,14 @@ body {
 }
 
 /* =========================================================
-   AUTRES SECTIONS — TEMPORAIRES
+   SECTIONS TEMPORAIRES
    ========================================================= */
 
 .placeholder-section {
     min-height: 100vh;
+
+    position: relative;
+    z-index: 20;
 
     display: flex;
     align-items: center;
@@ -357,7 +390,7 @@ body {
 }
 
 /* =========================================================
-   ANIMATION
+   ANIMATION LOGO
    ========================================================= */
 
 @keyframes fadeIn {
@@ -442,7 +475,6 @@ body {
     .carousel {
         aspect-ratio: 4 / 5;
     }
-
 }
 
 /* =========================================================
@@ -485,10 +517,10 @@ body {
 
 
 <!-- =======================================================
-     ACCUEIL
+     ACCUEIL FIXE
      ======================================================= -->
 
-<section id="accueil">
+<div class="home-fixed" id="homeFixed">
 
     <div class="bg"></div>
 
@@ -510,7 +542,17 @@ body {
 
     </div>
 
-</section>
+</div>
+
+
+<!--
+    Cette hauteur permet de scroller hors de l'écran d'accueil.
+-->
+
+<div
+    id="accueil"
+    class="home-scroll-space"
+></div>
 
 
 <!-- =======================================================
@@ -553,26 +595,18 @@ body {
 
         <div class="carousel">
 
-            <!-- PHOTO 1 -->
-
             <div class="carousel-slide active">
                 PHOTO 1
             </div>
-
-            <!-- PHOTO 2 -->
 
             <div class="carousel-slide">
                 PHOTO 2
             </div>
 
-            <!-- PHOTO 3 -->
-
             <div class="carousel-slide">
                 PHOTO 3
             </div>
 
-
-            <!-- FLÈCHE PRÉCÉDENTE -->
 
             <button
                 class="carousel-arrow carousel-prev"
@@ -583,8 +617,6 @@ body {
             </button>
 
 
-            <!-- FLÈCHE SUIVANTE -->
-
             <button
                 class="carousel-arrow carousel-next"
                 onclick="changeSlide(1)"
@@ -593,8 +625,6 @@ body {
                 ›
             </button>
 
-
-            <!-- POINTS -->
 
             <div class="carousel-dots">
 
@@ -671,10 +701,14 @@ body {
 
 
 <!-- =======================================================
-     JAVASCRIPT — CARROUSEL
+     JAVASCRIPT
      ======================================================= -->
 
 <script>
+
+/* =========================================================
+   CARROUSEL
+   ========================================================= */
 
 let currentSlide = 0;
 
@@ -736,6 +770,97 @@ function goToSlide(index) {
     showSlide(index);
 
 }
+
+
+/* =========================================================
+   DISPARITION DE L'ACCUEIL
+   ========================================================= */
+
+const homeFixed =
+    document.getElementById("homeFixed");
+
+const lieuSection =
+    document.getElementById("lieu");
+
+
+function updateHomeVisibility() {
+
+    const lieuTop =
+        lieuSection.getBoundingClientRect().top;
+
+    const screenHeight =
+        window.innerHeight;
+
+
+    /*
+       L'accueil commence à disparaître
+       lorsque LE LIEU entre dans l'écran.
+    */
+
+    const fadeStart =
+        screenHeight * 0.85;
+
+    const fadeEnd =
+        screenHeight * 0.15;
+
+
+    let opacity;
+
+
+    if (lieuTop >= fadeStart) {
+
+        opacity = 1;
+
+    }
+
+    else if (lieuTop <= fadeEnd) {
+
+        opacity = 0;
+
+    }
+
+    else {
+
+        opacity =
+            (lieuTop - fadeEnd) /
+            (fadeStart - fadeEnd);
+
+    }
+
+
+    homeFixed.style.opacity = opacity;
+
+
+    if (opacity <= 0) {
+
+        homeFixed.style.visibility = "hidden";
+        homeFixed.style.pointerEvents = "none";
+
+    }
+
+    else {
+
+        homeFixed.style.visibility = "visible";
+        homeFixed.style.pointerEvents = "auto";
+
+    }
+
+}
+
+
+window.addEventListener(
+    "scroll",
+    updateHomeVisibility,
+    { passive: true }
+);
+
+window.addEventListener(
+    "resize",
+    updateHomeVisibility
+);
+
+
+updateHomeVisibility();
 
 </script>
 
