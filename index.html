@@ -12,29 +12,21 @@
     box-sizing: border-box;
 }
 
-html, body {
-    height: 100%;
-    background: #000;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Helvetica, Arial, sans-serif;
-    overflow: hidden;
+html {
+    scroll-behavior: smooth;
 }
 
-/* 🌄 BACKGROUND */
-.bg {
-    position: fixed;
-    inset: 0;
-    background: url("image-cafe.jpeg") center/cover no-repeat;
-    transform: scale(1.05);
+body {
+    background: #f4f1eb;
+    color: #171717;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                 Helvetica, Arial, sans-serif;
 }
 
-.bg::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.35);
-}
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
 
-/* ☰ NAVIGATION */
 .nav {
     position: fixed;
     top: 0;
@@ -48,9 +40,9 @@ html, body {
     align-items: center;
     gap: 42px;
 
-    z-index: 10;
+    z-index: 100;
 
-    background: rgba(0,0,0,0.12);
+    background: rgba(0, 0, 0, 0.12);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
 
@@ -65,17 +57,49 @@ html, body {
     font-weight: 500;
     letter-spacing: 1.2px;
 
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.2s ease;
 }
 
 .nav a:hover {
-    opacity: 0.65;
-    transform: translateY(-1px);
+    opacity: 0.55;
 }
 
-/* ☕ CENTER — LOGO */
+/* =========================================================
+   ACCUEIL
+   ========================================================= */
+
+#accueil {
+    height: 100vh;
+    min-height: 600px;
+
+    position: relative;
+
+    background: #000;
+
+    overflow: hidden;
+}
+
+.bg {
+    position: absolute;
+    inset: 0;
+
+    background: url("image-cafe.jpeg") center/cover no-repeat;
+
+    transform: scale(1.05);
+}
+
+.bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0,0,0,0.35);
+}
+
+/* LOGO */
+
 .center {
-    position: fixed;
+    position: absolute;
     inset: 0;
 
     display: flex;
@@ -98,9 +122,11 @@ html, body {
         drop-shadow(0 0 30px rgba(255,220,180,0.12));
 }
 
-/* 📍 FOOTER */
+/* FOOTER ACCUEIL */
+
 .footer {
-    position: fixed;
+    position: absolute;
+
     bottom: 10px;
     left: 0;
     right: 0;
@@ -115,8 +141,227 @@ html, body {
     z-index: 5;
 }
 
-/* ✨ ANIMATION */
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.section {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+
+    padding: 120px 7vw;
+
+    scroll-margin-top: 70px;
+}
+
+/* =========================================================
+   LE LIEU
+   ========================================================= */
+
+#lieu {
+    background: #f4f1eb;
+}
+
+.lieu-container {
+    width: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 7vw;
+
+    align-items: center;
+}
+
+/* TEXTE */
+
+.lieu-text {
+    max-width: 620px;
+}
+
+.section-title {
+    font-size: clamp(42px, 5vw, 76px);
+
+    font-weight: 500;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 45px;
+}
+
+.lieu-text p {
+    font-size: clamp(17px, 1.4vw, 21px);
+
+    line-height: 1.7;
+
+    font-weight: 350;
+
+    color: #292929;
+}
+
+.lieu-signature {
+    margin-top: 35px;
+
+    font-size: clamp(19px, 1.6vw, 25px) !important;
+
+    line-height: 1.5 !important;
+
+    font-weight: 500 !important;
+}
+
+/* =========================================================
+   CARROUSEL
+   ========================================================= */
+
+.carousel {
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #dedbd4;
+}
+
+.carousel-slide {
+    position: absolute;
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+    letter-spacing: 2px;
+
+    color: rgba(0,0,0,0.35);
+
+    text-transform: uppercase;
+}
+
+.carousel-slide.active {
+    display: flex;
+}
+
+/* FLÈCHES */
+
+.carousel-arrow {
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,0.65);
+
+    background: rgba(0,0,0,0.12);
+
+    color: white;
+
+    font-size: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    transition: background 0.2s ease;
+}
+
+.carousel-arrow:hover {
+    background: rgba(0,0,0,0.35);
+}
+
+.carousel-prev {
+    left: 20px;
+}
+
+.carousel-next {
+    right: 20px;
+}
+
+/* POINTS */
+
+.carousel-dots {
+    position: absolute;
+
+    bottom: 20px;
+
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+
+    gap: 8px;
+}
+
+.carousel-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.45);
+
+    cursor: pointer;
+}
+
+.carousel-dot.active {
+    background: white;
+}
+
+/* =========================================================
+   AUTRES SECTIONS — TEMPORAIRES
+   ========================================================= */
+
+.placeholder-section {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 100px 30px;
+
+    background: #ebe7df;
+}
+
+.placeholder-section:nth-of-type(even) {
+    background: #f4f1eb;
+}
+
+.placeholder-title {
+    font-size: clamp(42px, 6vw, 80px);
+
+    font-weight: 400;
+
+    letter-spacing: -2px;
+}
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
 @keyframes fadeIn {
+
     from {
         opacity: 0;
         transform: translateY(10px);
@@ -128,11 +373,15 @@ html, body {
     }
 }
 
-/* 📱 MOBILE */
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
 @media (max-width: 768px) {
 
     .nav {
         height: 60px;
+
         gap: 22px;
 
         justify-content: flex-start;
@@ -140,9 +389,11 @@ html, body {
         padding: 0 20px;
 
         overflow-x: auto;
+
         white-space: nowrap;
 
         -webkit-overflow-scrolling: touch;
+
         scrollbar-width: none;
     }
 
@@ -152,7 +403,9 @@ html, body {
 
     .nav a {
         flex-shrink: 0;
+
         font-size: 12px;
+
         letter-spacing: 0.9px;
     }
 
@@ -164,9 +417,38 @@ html, body {
     .center {
         transform: translateY(-85px);
     }
+
+    .section {
+        min-height: auto;
+
+        padding: 100px 22px;
+    }
+
+    .lieu-container {
+        grid-template-columns: 1fr;
+
+        gap: 55px;
+    }
+
+    .section-title {
+        margin-bottom: 30px;
+    }
+
+    .lieu-text p {
+        font-size: 17px;
+        line-height: 1.65;
+    }
+
+    .carousel {
+        aspect-ratio: 4 / 5;
+    }
+
 }
 
-/* 📱 LANDSCAPE */
+/* =========================================================
+   LANDSCAPE MOBILE
+   ========================================================= */
+
 @media (max-width: 932px) and (orientation: landscape) {
 
     .nav {
@@ -183,9 +465,10 @@ html, body {
 
 <body>
 
-<div class="bg"></div>
+<!-- =======================================================
+     NAVIGATION
+     ======================================================= -->
 
-<!-- NAVIGATION -->
 <nav class="nav">
 
     <a href="#accueil">ACCUEIL</a>
@@ -200,19 +483,261 @@ html, body {
 
 </nav>
 
-<!-- ACCUEIL -->
+
+<!-- =======================================================
+     ACCUEIL
+     ======================================================= -->
+
 <section id="accueil">
 
+    <div class="bg"></div>
+
     <div class="center">
-        <img src="logo.svg" class="logo" alt="Beng Café">
+
+        <img
+            src="logo.svg"
+            class="logo"
+            alt="Beng Café"
+        >
+
     </div>
 
     <div class="footer">
+
         24 rue du Frout · Quimper<br>
+
         Jeu 11h–18h · Ven–Lun 9h45–18h
+
     </div>
 
 </section>
+
+
+<!-- =======================================================
+     LE LIEU
+     ======================================================= -->
+
+<section id="lieu" class="section">
+
+    <div class="lieu-container">
+
+        <!-- TEXTE -->
+
+        <div class="lieu-text">
+
+            <h2 class="section-title">
+                LE LIEU
+            </h2>
+
+            <p>
+                Beng Café est un coffee shop indépendant au cœur de Quimper.
+                Un lieu chaleureux et cosy autour du café de spécialité,
+                de la gourmandise et du partage.
+                On y vient pour boire un bon café sélectionné avec soin,
+                mais aussi pour déjeuner ou bruncher en prenant son temps.
+                La carte de restauration change chaque semaine,
+                selon les envies de notre cheffe et les saisons.
+                Une offre sucrée accompagne également les boissons,
+                du petit déjeuner au goûter.
+            </p>
+
+            <p class="lieu-signature">
+                Un lieu vivant et sans prétention,
+                où l’on prend le temps.
+            </p>
+
+        </div>
+
+
+        <!-- CARROUSEL -->
+
+        <div class="carousel">
+
+            <!-- PHOTO 1 -->
+
+            <div class="carousel-slide active">
+                PHOTO 1
+            </div>
+
+            <!-- PHOTO 2 -->
+
+            <div class="carousel-slide">
+                PHOTO 2
+            </div>
+
+            <!-- PHOTO 3 -->
+
+            <div class="carousel-slide">
+                PHOTO 3
+            </div>
+
+
+            <!-- FLÈCHE PRÉCÉDENTE -->
+
+            <button
+                class="carousel-arrow carousel-prev"
+                onclick="changeSlide(-1)"
+                aria-label="Photo précédente"
+            >
+                ‹
+            </button>
+
+
+            <!-- FLÈCHE SUIVANTE -->
+
+            <button
+                class="carousel-arrow carousel-next"
+                onclick="changeSlide(1)"
+                aria-label="Photo suivante"
+            >
+                ›
+            </button>
+
+
+            <!-- POINTS -->
+
+            <div class="carousel-dots">
+
+                <span
+                    class="carousel-dot active"
+                    onclick="goToSlide(0)"
+                ></span>
+
+                <span
+                    class="carousel-dot"
+                    onclick="goToSlide(1)"
+                ></span>
+
+                <span
+                    class="carousel-dot"
+                    onclick="goToSlide(2)"
+                ></span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     BOISSONS
+     ======================================================= -->
+
+<section
+    id="boissons"
+    class="placeholder-section"
+>
+
+    <h2 class="placeholder-title">
+        BOISSONS
+    </h2>
+
+</section>
+
+
+<!-- =======================================================
+     RESTAURATION
+     ======================================================= -->
+
+<section
+    id="restauration"
+    class="placeholder-section"
+>
+
+    <h2 class="placeholder-title">
+        RESTAURATION
+    </h2>
+
+</section>
+
+
+<!-- =======================================================
+     INFOS
+     ======================================================= -->
+
+<section
+    id="infos"
+    class="placeholder-section"
+>
+
+    <h2 class="placeholder-title">
+        INFOS
+    </h2>
+
+</section>
+
+
+<!-- =======================================================
+     JAVASCRIPT — CARROUSEL
+     ======================================================= -->
+
+<script>
+
+let currentSlide = 0;
+
+const slides =
+    document.querySelectorAll(".carousel-slide");
+
+const dots =
+    document.querySelectorAll(".carousel-dot");
+
+
+function showSlide(index) {
+
+    if (index >= slides.length) {
+        currentSlide = 0;
+    }
+
+    else if (index < 0) {
+        currentSlide = slides.length - 1;
+    }
+
+    else {
+        currentSlide = index;
+    }
+
+
+    slides.forEach((slide, i) => {
+
+        slide.classList.toggle(
+            "active",
+            i === currentSlide
+        );
+
+    });
+
+
+    dots.forEach((dot, i) => {
+
+        dot.classList.toggle(
+            "active",
+            i === currentSlide
+        );
+
+    });
+
+}
+
+
+function changeSlide(direction) {
+
+    showSlide(
+        currentSlide + direction
+    );
+
+}
+
+
+function goToSlide(index) {
+
+    showSlide(index);
+
+}
+
+</script>
 
 </body>
 </html>
